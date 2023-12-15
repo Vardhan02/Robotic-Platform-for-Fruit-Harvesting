@@ -9,17 +9,17 @@ pwm = GPIO.PWM(servo_pin, 50)  # GPIO 18 for PWM with 50Hz
 pwm.start(2.5)  # Initialization
 
 try:
-    while True:
+    while(1):
         # Move servo to 0 degrees
-        pwm.ChangeDutyCycle(2.5)
+        pwm.ChangeDutyCycle(6)
         time.sleep(1)
         
         # Move servo to 270 degrees
-        pwm.ChangeDutyCycle(12.5)
+        pwm.ChangeDutyCycle(8)
         time.sleep(1)
         
         # Move servo back to 0 degrees
-        pwm.ChangeDutyCycle(2.5)
+        pwm.ChangeDutyCycle(6)
         time.sleep(1)
 
 except KeyboardInterrupt:
