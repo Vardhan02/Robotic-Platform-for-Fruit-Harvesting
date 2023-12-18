@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-servo_pin = 18  # The GPIO pin the servo is connected to
+servo_pin = 2  # The GPIO pin the servo is connected to
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(servo_pin, GPIO.OUT)
 
