@@ -30,7 +30,6 @@ while (1):
 pwm.stop()
 GPIO.cleanup()
 """
-"""
 
 # Import the required modules
 from flask import Flask, render_template, request
@@ -49,7 +48,6 @@ shoulder_pin = 3
 elbow_pin = 4
 wrist_pin = 5
 gripper_pin = 6
-
 
 # Set the GPIO pins as output
 GPIO.setup(base_pin, GPIO.OUT)
@@ -108,6 +106,7 @@ def arm():
     if button_id == "baseLeft":
         # Rotate the base servo motor to the left by 10 degrees
         rotate_servo(base_pwm, 90)
+        print()
     elif button_id == "baseRight":
         # Rotate the base servo motor to the right by 10 degrees
         rotate_servo(base_pwm, -90)
@@ -142,8 +141,8 @@ def arm():
 # Run the app on port 8000
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8000)
-"""
 
+"""
 # Import the required modules
 from flask import Flask, render_template, request
 import RPi.GPIO as GPIO
@@ -240,3 +239,4 @@ def arm():
 # Run the app on port 8000
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8000)
+"""
