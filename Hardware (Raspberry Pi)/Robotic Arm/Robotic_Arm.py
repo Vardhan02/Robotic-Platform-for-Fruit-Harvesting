@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import RPi.GPIO as GPIO
 import time
 
@@ -29,14 +29,22 @@ for servo in servos.values():
 
 app = Flask(__name__)
 
+# Define a route for the home page
+@app.route("/")
+def index():
+    # Render the HTML template
+    return render_template("index.html")
+
 @app.route('/commands', methods=['POST'])
 def commands():
     command = request.json['command']
     if command == 'arm_up':
         # Move the arm up
+        print("1")
         set_angle(servos['arm'], 90)
     elif command == 'arm_down':
         # Move the arm down
+        print("1")
         set_angle(servos['arm'], 0)
     elif command == 'shoulder_up':
         # Move the shoulder up
