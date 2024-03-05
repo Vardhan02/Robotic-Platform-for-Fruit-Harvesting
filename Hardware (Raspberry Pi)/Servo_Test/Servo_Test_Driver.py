@@ -16,14 +16,14 @@ kit = ServoKit(channels = 16)
 
 try:
     while(True):
-        '''
+        
         # Gripper
-        for angle_ in range(180, 50, -1):
+        for angle_ in range(80, 10, -1):#gripper closing
             kit.servo[gripper].angle = angle_
             time.sleep(0.01)
         time.sleep(1)
 
-        for angle_ in range(50, 180):
+        for angle_ in range(0, 80):#gripper opening
             kit.servo[gripper].angle = angle_
             time.sleep(0.01)
         time.sleep(1)
@@ -49,7 +49,7 @@ try:
             kit.servo[elbow].angle = angle_
             time.sleep(0.01)
         time.sleep(1)
-        '''
+        
         # Shouder (180 - Up, 50 - Down)
         for angle_ in range(180, 50, -1):
             kit.servo[shoulder].angle = angle_

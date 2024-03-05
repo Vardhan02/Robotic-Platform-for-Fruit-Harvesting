@@ -107,12 +107,6 @@ try:
             time.sleep(0.03)
         time.sleep(1)
         """
-        
-        
-        
-
-        
-        
 
 except KeyboardInterrupt: # If CTRL+C is pressed, exit cleanly:
    print("Keyboard interrupt") 
