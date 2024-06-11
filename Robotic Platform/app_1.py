@@ -4,7 +4,7 @@ import cv2
 import math
 import RPi.GPIO as GPIO
 import serial
-import threading
+import time
 
 app = Flask(__name__)
 
@@ -14,7 +14,7 @@ cap.set(3, 640)
 cap.set(4, 480)
 
 # Model
-model = YOLO("tomato.pt")
+model = YOLO("Robotic Platform/tomato.pt")
 
 # Object classes
 classNames = ['ripe tomato', 'unripe tomato']
@@ -36,7 +36,7 @@ def SetAngle(angle):
     duty = angle / 18 + 2
     GPIO.output(12, True)
     pwm.ChangeDutyCycle(duty)
-    sleep(1)
+    time.sleep(1)
     GPIO.output(12, False)
     pwm.ChangeDutyCycle(0)
 
