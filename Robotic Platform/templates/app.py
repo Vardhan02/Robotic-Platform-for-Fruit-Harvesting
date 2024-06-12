@@ -13,8 +13,9 @@ wrist = 2
 elbow = 4
 shoulder_1 = 6
 shoulder_2 = 8
-base_1 = 11      # Servo motor side
-base_2 = 13
+base_1 = 10      # Servo motor side
+base_2 = 12
+bottom_base = 14
 
 kit = ServoKit(channels=16)
 
@@ -51,6 +52,14 @@ def base_move(angle):
     # Set the servo angles of the base_1 and base_2
     kit.servo[base_1].angle = angle
     kit.servo[base_2].angle = 180 - angle
+    # Return the angle for debugging purposes
+    return angle
+
+# Define the bottom base function
+def bottom_base_move(angle):
+    # Set the servo angles of the base_1 and base_2
+    kit.servo[bottom_base].angle = angle
+    kit.servo[bottom_base].angle = 180 - angle
     # Return the angle for debugging purposes
     return angle
 
@@ -102,7 +111,7 @@ def index():
 @app.route("/gripper_open", methods=["POST"])
 def gripper_open():
     # Call the gripper_move function to open the gripper
-    for angle_ in range(50, 180):
+    for angle_ in range(10, 120):
         gripper_move(angle_)
         time.sleep(0.01)
     time.sleep(1)
@@ -173,7 +182,7 @@ def shoulder_down():
 @app.route("/base_up", methods=["POST"])
 def base_up():
     # Move base up to 180 degrees
-    for angle_ in range(180, 50,-1): # Going Up
+    for angle_ in range(180, 50, -1): # Going Up
         base_move(angle_)
         time.sleep(0.03)
     time.sleep(1)
@@ -186,6 +195,22 @@ def base_down():
         time.sleep(0.03)
     time.sleep(1)
     return "Base moved down"
+
+@app.route("/base_left", methods=["POST"])
+def base_left():
+    for angle_ in range(0, 180): # Going left
+        bottom_base_move(angle_)
+        time.sleep(0.03)
+    time.sleep(1)
+    return "Base moved left"
+
+@app.route("/base_right", methods=["POST"])
+def base_right():
+    for angle_ in range(180, 0, -1): # Going right
+        bottom_base_move(angle_)
+        time.sleep(0.03)
+    time.sleep(1)
+    return "Base moved right"
 
 # Run the Flask app
 if __name__ == "__main__":
