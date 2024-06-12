@@ -26,8 +26,9 @@ current_angles = {
     "elbow": 90,
     "shoulder": 180,
     "base": 80,
-    "bottom_base": 180
+    "bottom_base": 0
 }
+
 
 def update_angle(servo_name, delta):
     current_angles[servo_name] += delta
@@ -65,44 +66,10 @@ def base_move(delta):
 def bottom_base_move(delta):
     angle = update_angle("bottom_base", delta)
     kit.servo[bottom_base].angle = angle
-    kit.servo[bottom_base].angle = 180 - angle
     return angle
 
 # Create a Flask app
 app = Flask(__name__, template_folder="/home/student/Documents/ECE-030 - Final Year Project/Robotic Platform for Fruit Harvesting/Robotic Platform/templates")
-
-# Initialize camera
-camera = cv2.VideoCapture(0)  # Use 0 for web camera
-
-# Lock for thread-safe frame capture
-frame_lock = threading.Lock()
-current_frame = None
-
-def capture_frames():
-    global current_frame, camera, frame_lock
-    while True:
-        with frame_lock:
-            success, frame = camera.read()
-            if success:
-                ret, buffer = cv2.imencode('.jpg', frame)
-                current_frame = buffer.tobytes()
-
-# Start frame capture thread
-frame_thread = threading.Thread(target=capture_frames)
-frame_thread.daemon = True
-frame_thread.start()
-
-def generate_video_feed():
-    global current_frame, frame_lock
-    while True:
-        with frame_lock:
-            if current_frame is not None:
-                yield (b'--frame\r\n'
-                       b'Content-Type: image/jpeg\r\n\r\n' + current_frame + b'\r\n')
-
-@app.route('/video_feed')
-def video_feed():
-    return Response(generate_video_feed(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 # Define the route for the web console
 @app.route("/")
@@ -122,12 +89,12 @@ def gripper_close():
 
 @app.route("/wrist_up", methods=["POST"])
 def wrist_up():
-    angle = wrist_move(10)
+    angle = wrist_move(30)
     return f"Wrist moved to {angle} degrees"
 
 @app.route("/wrist_down", methods=["POST"])
 def wrist_down():
-    angle = wrist_move(-10)
+    angle = wrist_move(-30)
     return f"Wrist moved to {angle} degrees"
 
 @app.route("/elbow_up", methods=["POST"])
@@ -162,12 +129,12 @@ def base_down():
 
 @app.route("/base_left", methods=["POST"])
 def base_left():
-    angle = bottom_base_move(10)
+    angle = bottom_base_move(30)
     return f"Base moved to {angle} degrees"
 
 @app.route("/base_right", methods=["POST"])
 def base_right():
-    angle = bottom_base_move(-10)
+    angle = bottom_base_move(-30)
     return f"Base moved to {angle} degrees"
 
 # Run the Flask app
